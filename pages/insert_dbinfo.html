@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DataBase Similarity Compare</title>
+        <link rel="stylesheet" type="text/css" href="style.scss" />
+    </head>
+
+    <body class="body">
+        <div class="header">
+            <img id="logo" src="assets/img/logo.png" />
+            <img class="head-button" id="clear" src="assets/img/clearButton.png" />
+            <img class="head-button" id="export" src="assets/img/exportButton.png" />
+        </div>
+        
+        <div id="line"></div>
+
+        <div class="dbs-insert">
+
+            <!- Input form for database 1 ->
+            <div id="db1">
+                <form class="form" id="db1">
+                    <fieldset class="border">
+                    <h1>Database 1</h1>
+                    <label for="host-a">Database host address:</label></br>
+                    <input class="input-data" type="text" name="host-a" /></br>
+
+                    <label for="dbname">Database name:</label></br>
+                    <input class="input-data" type="text" name="dbname" /></br>
+                    
+                    <label for="dbuser">Username:</label></br>
+                    <input class="input-data" type="text" name="dbuser" /></br>
+                    
+                    <label for="dbpass">Password:</label></br>
+                    <input class="input-data" type="password" name="dbpass" />
+                </fieldset>
+                </form>
+            </div>
+
+            <!- Input form for database 2 ->
+            <div id="db2">
+                <form class="form" id="db1">
+                    <fieldset class="border">
+                    <h1>Database 2</h1>
+                    <label for="host-a">Database host address:</label></br>
+                    <input class="input-data" type="text" name="host-a" /></br>
+
+                    <label for="dbname">Database name:</label></br>
+                    <input class="input-data" type="text" name="dbname" /></br>
+                    
+                    <label for="dbuser">Username:</label></br>
+                    <input class="input-data" type="text" name="dbuser" /></br>
+                    
+                    <label for="dbpass">Password:</label></br>
+                    <input class="input-data" type="password" name="dbpass" />
+                </fieldset>
+                </form>
+            </div>
+        </div> <!- Databases input form ->
+
+        <div id="send"><input type="button"><img src="assets/img/analyzeButton.png" /></input> </div>
+
+
+    </body>
+
+
+</html>
