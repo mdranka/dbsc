@@ -6,7 +6,7 @@ let p02 = ['integer', 'varchar', 'integer', 'integer', 'varchar', 'varchar', 'ch
 
 const sim = require('string-similarity');
 
-class attribute {
+class Attribute {
     constructor(_name, _type, _pk, _nullable, _updatable, _fk, _restrict){
         this.name = _name;
         this.type = _type;
@@ -15,44 +15,91 @@ class attribute {
         this.updatable = _updatable;
         this.fk = _fk;
         this.restrict = _restrict;
+        this.match = false
     }
 
     getName() {
-        return this._name;
+        return this.name;
     }
 
     getType() {
-        return this._type;
+        return this.type;
     }
 
     getAttrib() {
-        attrib = [this._pk, this._nullable, this._updatable, this._fk, this._restrict];
+        attrib = [this.pk, this.nullable, this.updatable, this.fk, this.restrict];
         return attrib;
+    }
+}
+
+class Result {
+    constructor(_name1, _name2, _type1, _type2, _pk1, _pk2, _nullable1, _nullable2, _updatable1, _updatable2, _fk1, _fk2, _restrict1, _restrict2) {
+        this.name1 = _name1;
+        this.name2 = _name2;
+        this.type1 = _type1;
+        this.type2 = _type2;
+        this.pk1 = _pk1;
+        this.pk2 = _pk2;
+        this.nullable1 = _nullable1;
+        this.nullable2 = _nullable2;
+        this.updatable1 = _updatable1;
+        this.updatable2 = _updatable2;
+        this.fk1 = _fk1;
+        this.fk2 = _fk2;
+        this.restrict1 = _restrict1;
+        this.restrict2 = _restrict2;
     }
 }
 
 // cria lista de atributos da primeira tabela
 let tab01 = [];
 for (let i = 0; i < at01.length; i++) {
-    tab01.push(new attribute(at01[i], p01[i], null, null, null, null, null))
+    tab01.push(new Attribute(at01[i], p01[i], null, null, null, null, null, false))
 }
 // cria lista de atributos da segunda tabela
 let tab02 = [];
 for (let i = 0; i < at02.length; i++) {
-    tab02.push(new attribute(at02[i], p02[i], null, null, null, null, null))
+    tab02.push(new Attribute(at02[i], p02[i], null, null, null, null, null, false))
 }
 
 // Testa o atributo mais similar
 let attribSim = [];
-for (let i = 0; i < at01.length; i++) {
-    console.log('%s: ', at01[i], sim.findBestMatch(tab01[i]._name, at02));
-    attribSim.push('%d', i);
+let bmi;
+for (let i = 0; i < tab01.length; i++) {
+    let n2 = []; // lista de nomes de atributo da segunda tabela
+    for (let j = 0 ; j < tab02.length; j++){
+        n2.push(tab02[j].name);
+    }
+    bm = sim.findBestMatch(tab01[i].name, n2);
+    bmi = bm.bestMatchIndex;
+    if (!tab02[bmi].match){ // se não foi listado ainda
+        attribSim.push(new Result(tab01[i].name, tab02[bmi].name, tab01[i].type, tab02[bmi].type,
+            tab01[i].pk, tab02[bmi].pk, tab01[i].nullable, tab02[bmi].nullable,
+            tab01[i].updatable, tab02[bmi].updatable, tab01[i].fk, tab02[bmi].fk,
+            tab01[i].restrict, tab02[bmi].restrict));
+            tab01[i].match = true; // marca como listado
+            tab02[bmi].match = true;
+    } else {
+        attribSim.push(new Result(tab01[i].name, '---', tab01[i].type, '---',
+            tab01[i].pk, '---', tab01[i].nullable, '---',
+            tab01[i].updatable, '---', tab01[i].fk, '---',
+            tab01[i].restrict, '---'));
+            tab01[i].match = true; // marca como listado
+    }
 }
+for (let i = 0; i < tab02.length; i++) {
+    if (!tab02[i].match) {
+        attribSim.push(new Result('---', tab02[bmi].name, '---', tab02[bmi].type,
+            '---', tab02[bmi].pk, '---', tab02[bmi].nullable,
+            '---', tab02[bmi].updatable, '---', tab02[bmi].fk,
+            '---', tab02[bmi].restrict));
+            tab02[i].match = true; // marca como listado
+    }
+}
+console.table(attribSim);
 
-console.table(tab01);
 
-
-//let result = new attribute();
+//let result = new Attribute();
 
 //console.table(result);
 
