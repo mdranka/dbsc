@@ -48,6 +48,7 @@ class Result {
         this.fk2 = _fk2;
         this.restrict1 = _restrict1;
         this.restrict2 = _restrict2;
+        this.simScore = 0
     }
 }
 
@@ -62,42 +63,62 @@ for (let i = 0; i < at02.length; i++) {
     tab02.push(new Attribute(at02[i], p02[i], null, null, null, null, null, false))
 }
 
-// Testa o atributo mais similar
-let attribSim = [];
-let bmi;
-for (let i = 0; i < tab01.length; i++) {
-    let n2 = []; // lista de nomes de atributo da segunda tabela
-    for (let j = 0 ; j < tab02.length; j++){
-        n2.push(tab02[j].name);
+function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributos
+    let attribSim = []; // Lista com os dados a serem analisados
+    let bmi; // Índice da string mais similar
+    for (let i = 0; i < tab01.length; i++) {
+        let n2 = []; // lista de nomes de atributo da segunda tabela
+        for (let j = 0 ; j < tab02.length; j++){
+            n2.push(tab02[j].name);
+        }
+        bm = sim.findBestMatch(tab01[i].name, n2);
+        bmi = bm.bestMatchIndex;
+        if (!tab02[bmi].match){ // se não foi listado ainda
+            attribSim.push(new Result(tab01[i].name, tab02[bmi].name, tab01[i].type, tab02[bmi].type,
+                tab01[i].pk, tab02[bmi].pk, tab01[i].nullable, tab02[bmi].nullable,
+                tab01[i].updatable, tab02[bmi].updatable, tab01[i].fk, tab02[bmi].fk,
+                tab01[i].restrict, tab02[bmi].restrict));
+                tab01[i].match = true; // marca como listado
+                tab02[bmi].match = true;
+        } else {
+            attribSim.push(new Result(tab01[i].name, '---', tab01[i].type, '---',
+                tab01[i].pk, '---', tab01[i].nullable, '---',
+                tab01[i].updatable, '---', tab01[i].fk, '---',
+                tab01[i].restrict, '---'));
+                tab01[i].match = true; // marca como listado
+        }
     }
-    bm = sim.findBestMatch(tab01[i].name, n2);
-    bmi = bm.bestMatchIndex;
-    if (!tab02[bmi].match){ // se não foi listado ainda
-        attribSim.push(new Result(tab01[i].name, tab02[bmi].name, tab01[i].type, tab02[bmi].type,
-            tab01[i].pk, tab02[bmi].pk, tab01[i].nullable, tab02[bmi].nullable,
-            tab01[i].updatable, tab02[bmi].updatable, tab01[i].fk, tab02[bmi].fk,
-            tab01[i].restrict, tab02[bmi].restrict));
-            tab01[i].match = true; // marca como listado
-            tab02[bmi].match = true;
-    } else {
-        attribSim.push(new Result(tab01[i].name, '---', tab01[i].type, '---',
-            tab01[i].pk, '---', tab01[i].nullable, '---',
-            tab01[i].updatable, '---', tab01[i].fk, '---',
-            tab01[i].restrict, '---'));
-            tab01[i].match = true; // marca como listado
+    for (let i = 0; i < tab02.length; i++) {
+        if (!tab02[i].match) {
+            attribSim.push(new Result('---', tab02[bmi].name, '---', tab02[bmi].type,
+                '---', tab02[bmi].pk, '---', tab02[bmi].nullable,
+                '---', tab02[bmi].updatable, '---', tab02[bmi].fk,
+                '---', tab02[bmi].restrict));
+                tab02[i].match = true; // marca como listado
+        }
     }
+return attribSim;
 }
-for (let i = 0; i < tab02.length; i++) {
-    if (!tab02[i].match) {
-        attribSim.push(new Result('---', tab02[bmi].name, '---', tab02[bmi].type,
-            '---', tab02[bmi].pk, '---', tab02[bmi].nullable,
-            '---', tab02[bmi].updatable, '---', tab02[bmi].fk,
-            '---', tab02[bmi].restrict));
-            tab02[i].match = true; // marca como listado
-    }
-}
-console.table(attribSim);
 
+//console.table(buildTable(tab01, tab02));
+
+// Calculo do percentual de similaridade
+function simPercentCalc(attribSim) {
+    let similarity = 0;
+    for (let i = 0; i < attribSim.length; i++) {
+        similarity += (60 * (sim.compareTwoStrings(attribSim[i].name1, attribSim[i].name2))).toFixed(1);
+
+
+        attribSim[i].simScore = similarity;
+        similarity = 0;
+    }
+
+
+
+
+    return attribSim;
+}
+console.table(simPercentCalc(buildTable(tab01, tab02)));
 
 //let result = new Attribute();
 
