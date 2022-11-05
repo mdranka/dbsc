@@ -218,26 +218,3 @@ console.table(simPercentCalc(buildTable(tab01, tab02)));
 //let result = new Attribute();
 
 //console.table(result);
-
-/*
-const similarity = require('string-similarity');
-
-console.log('Nome - nomeCompleto: ' + similarity.compareTwoStrings('Nome', 'nomeCompleto'));
-console.log('Nome - Nome: ' + similarity.compareTwoStrings('Nome', 'Nome'));
-console.log('End - Endereco: ' + similarity.compareTwoStrings('End', 'Endereco'));
-console.log('endereco - enderecoCompleto: ' + similarity.compareTwoStrings('endereco', 'enderecoCompleto'));
-console.log('Nasc - DataNasc: ' + similarity.compareTwoStrings('Nasc', 'DataNasc'));
-console.log('DtNasc - Nascimento: ' + similarity.compareTwoStrings('DtNasc', 'Nascimento'));
-console.log('telefone - fone: ' + similarity.compareTwoStrings('telefone', 'fone'));
-console.log('email - e-mail: ' + similarity.compareTwoStrings('email', 'e-mail'));
-console.log('e-mail - mail: ' + similarity.compareTwoStrings('e-mail', 'mail'));
-console.log('cadastro - dataCad: ' + similarity.compareTwoStrings('cadastro', 'dataCad'));
-console.log('dataCad - dtCadastro: ' + similarity.compareTwoStrings('dataCad', 'dtCadastro'));
-console.log('convenio - conv: ' + similarity.compareTwoStrings('convenio', 'conv'));
-console.log('nomeMae - nMae: ' + similarity.compareTwoStrings('nomeMae', 'nMae'));
-console.log('nomeMae - mae: ' + similarity.compareTwoStrings('nomeMae', 'mae'));
-console.log('responsavel - resp: ' + similarity.compareTwoStrings('responsavel', 'resp'));
-console.log('cadastroSUS - cadSus: ' + similarity.compareTwoStrings('cadastroSUS', 'cadSus'));
-console.log('cadSus - codSUS: ' + similarity.compareTwoStrings('cadSus', 'codSUS'));
-console.log('cadSus - cadastro: ' + similarity.compareTwoStrings('cadSus', 'cadastro'));
-*/
