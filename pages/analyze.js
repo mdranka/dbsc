@@ -197,7 +197,7 @@ let fkeys2 = []; // chaves estrangeiras
     // cria lista de atributos da segunda tabela
     let tab02 = [];
     for (let i = 0; i < cn2.length; i++) {
-        tab02.push(new Attribute(cn2[i], t2[i], s2[i], pk2[i], n2[i], up2[i], fk2[i], 'YES', 'NO'))
+        tab02.push(new Attribute(cn2[i], t2[i], s2[i], pk2[i], n2[i], up2[i], fk2[i], 'NO', 'NO'))
     }
     // Executa as funções e retorna a tabela com o resultado
     console.log(`Banco 1: ${conn_bd1.database}; Tabela 1: ${table01}`);
@@ -335,8 +335,8 @@ function typeSimilarity(t1, t2, s1 = 0, s2 = 0) { // t1, t2: tipo dado 1 e 2, s1
                 } else if (t2 === 'character varying') {
                     score = 0.1;
                 } break;
-            case 'character varying':
-                if(t2 === 'character varying'){
+            case 'varchar':
+                if(t2 === 'varchar'){
                     score = Math.min(s1, s2) / Math.max(s1, s2);
                 } else if (t2 === 'character') {
                     score = 0.1;
