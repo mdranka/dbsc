@@ -1,12 +1,168 @@
-let at01 = ['idPaciente', 'nome', 'rg', 'cpf', 'endereco', 'cidade', 'estado', 'dataNasc', 'cadSUS', 'convenio'];
-let p01 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'integer', 'character varying'];
-let s01 = [0, 40, 0, 0, 80, 30, 2, 0, 0, 15];
-
-let at02 = ['codPac', 'nomePac', 'rg', 'cpf', 'endereco', 'cidade', 'estado', 'dtNasc', 'convenio'];
-let p02 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'character varying'];
-let s02 = [0, 45, 0, 0, 60, 35, 8, 0, 15];;
-
 const sim = require('string-similarity');
+let { Client } = require('pg');
+
+// Conexão com banco de dados
+let conn_bd1, conn_bd2;
+let [u1, h1, d1, pass1, port1] = ['iujokcbp', 'babar.db.elephantsql.com', 'iujokcbp', 'qoeFHJ4TmvXz2gDyN-5cfTSSlOrZG3eI', 5432]
+conn_bd1 = new Client({
+    user: u1,
+    host: h1,
+    database: d1,
+    password: pass1,
+    port: port1
+});
+// banco 2
+let [u2, h2, d2, pass2, port2] = ['ubnudjnt', 'babar.db.elephantsql.com', 'ubnudjnt', 'zuKRWNLmny2_CKs6BXBH7vy2E5GCC6mI', 5432]
+conn_bd2 = new Client({
+    user: u2,
+    host: h2,
+    database: d2,
+    password: pass2,
+    port: port2
+});
+
+// Atributos tabela 01
+let cn1 = []; // nome da coluna
+let t1 = []; // tipo de dados
+let s1 = []; // Tamanho da string, caso haja
+let pk1 = []; // chave primária
+let n1 = []; // Nullable
+let up1 = []; // Updatable
+let fk1 = []; // Chave estrangeira
+let r1 = []; // Restrict
+
+// Atributos tabela 02
+let cn2 = []; // nome da coluna
+let t2 = []; // tipo de dados
+let s2 = []; // Tamanho da string, caso haja
+let pk2 = []; // chave primária
+let n2 = []; // Nullable
+let up2 = []; // Updatable
+let fk2 = []; // Chave estrangeira
+let r2 = []; // Restrict
+
+//let cn2 = [];
+//let t2 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'character varying'];
+//let s2 = [0, 45, 0, 0, 60, 35, 8, 0, 15];;
+//console.log(cn2);
+
+
+
+// Lê do banco de dados 
+(async () => {
+    conn_bd1.connect();
+    conn_bd2.connect();
+    const table01 = 'paciente';
+    const table02 = 'paciente';
+
+    // nome das colunas bd1
+    let res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+    // tipo de dados bd1
+    res = await conn_bd1.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){
+        if (res.rows[i].data_type === 'character varying') {
+            t1.push('varchar')
+        } else {
+            t1.push(res.rows[i].data_type)
+        }
+    };
+    // tamanho string bd1
+    res = await conn_bd1.query(`SELECT character_maximum_length FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){
+        if (res.rows[i].character_maximum_length === null){
+            s1.push(0);
+        } else {
+            s1.push(parseInt(res.rows[i].character_maximum_length));
+        }
+    };
+    // chave primária bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+    
+    // nullable bd1
+    res = await conn_bd1.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){n1.push(res.rows[i].is_nullable)};
+    // updatable bd1
+    res = await conn_bd1.query(`SELECT is_updatable FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){up1.push(res.rows[i].is_updatable)};
+    
+    // chave estrangeira bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+    
+    // restrict bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+
+    // nome das colunas bd2
+    res = await conn_bd2.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){cn2.push(res.rows[i].column_name)};
+    // tipo de dados bd1
+    res = await conn_bd2.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){
+        if (res.rows[i].data_type === 'character varying') {
+            t2.push('varchar')
+        } else {
+            t2.push(res.rows[i].data_type)
+        }
+    };
+    // tamanho string bd1
+    res = await conn_bd2.query(`SELECT character_maximum_length FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){
+        if (res.rows[i].character_maximum_length === null){
+            s2.push(0);
+        } else {
+            s2.push(parseInt(res.rows[i].character_maximum_length));
+        }
+    };
+    // chave primária bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+
+    // nullable bd1
+    res = await conn_bd2.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){n2.push(res.rows[i].is_nullable)};
+    // updatable bd1
+    res = await conn_bd2.query(`SELECT is_updatable FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){up2.push(res.rows[i].is_updatable)};
+
+    // chave estrangeira bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+
+    // restrict bd1
+    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+
+
+    
+    //console.log(cn1);
+    //console.log(cn2);
+    
+    // Encerra conexões com bds
+    conn_bd1.end();
+    conn_bd2.end();
+    
+    
+    
+    // cria lista de atributos da primeira tabela
+    let tab01 = [];
+    for (let i = 0; i < cn1.length; i++) {
+        tab01.push(new Attribute(cn1[i], t1[i], s1[i], 'NO', n1[i], up1[i], 'NO', 'YES', 'NO'))
+    }
+    // cria lista de atributos da segunda tabela
+    let tab02 = [];
+    for (let i = 0; i < cn2.length; i++) {
+        tab02.push(new Attribute(cn2[i], t2[i], s2[i], 'NO', n2[i], up2[i], 'NO', 'YES', 'NO'))
+    }
+    // Executa as funções e retorna a tabela com o resultado
+    console.log(`Banco 1: ${conn_bd1.database}; Tabela 1: ${table01}`);
+    console.log(`Banco 2: ${conn_bd2.database}; Tabela 2: ${table02}`);
+    console.table(simPercentCalc(buildTable(tab01, tab02)));
+
+})();
+
 
 class Attribute {
     constructor(_name, _type, _size, _pk, _nullable, _updatable, _fk, _restrict){
@@ -20,13 +176,13 @@ class Attribute {
         this.restrict = _restrict;
         this.match = false
     }
-
+    // Funções auxiliares, por enquanto sem uso, talvez sejam removidas.
     getName() {
         return this.name;
     }
 
     getType() {
-        return this.type, this.size;
+        return [this.type, this.size];
     }
 
     getAttrib() {
@@ -57,16 +213,6 @@ class Result {
     }
 }
 
-// cria lista de atributos da primeira tabela
-let tab01 = [];
-for (let i = 0; i < at01.length; i++) {
-    tab01.push(new Attribute(at01[i], p01[i], s01[i], 'NO', 'NO', 'YES', 'NO', 'YES', 'NO'))
-}
-// cria lista de atributos da segunda tabela
-let tab02 = [];
-for (let i = 0; i < at02.length; i++) {
-    tab02.push(new Attribute(at02[i], p02[i], s02[i], 'NO', 'NO', 'YES', 'NO', 'YES', 'NO'))
-}
 
 function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributos
     let attribSim = []; // Lista com os dados a serem analisados
@@ -87,26 +233,23 @@ function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributo
                 tab02[bmi].match = true;
         } else {
             attribSim.push(new Result(tab01[i].name, '---', tab01[i].type, '---',
-                tab01[i].size, '--', tab01[i].pk, '--', tab01[i].nullable, '--',
-                tab01[i].updatable, '--', tab01[i].fk, '--',
-                tab01[i].restrict, '--'));
+                tab01[i].size, '---', tab01[i].pk, '---', tab01[i].nullable, '---',
+                tab01[i].updatable, '---', tab01[i].fk, '---',
+                tab01[i].restrict, '---'));
                 tab01[i].match = true; // marca como listado
         }
     }
     for (let i = 0; i < tab02.length; i++) {
         if (!tab02[i].match) {
             attribSim.push(new Result('---', tab02[bmi].name, '---', tab02[bmi].type,
-                '---', tab02[bmi].size, '--', tab02[bmi].pk, '--', tab02[bmi].nullable,
-                '--', tab02[bmi].updatable, '--', tab02[bmi].fk,
-                '--', tab02[bmi].restrict));
+                '---', tab02[bmi].size, '---', tab02[bmi].pk, '---', tab02[bmi].nullable,
+                '---', tab02[bmi].updatable, '---', tab02[bmi].fk,
+                '---', tab02[bmi].restrict));
                 tab02[i].match = true; // marca como listado
         }
     }
 return attribSim;
 }
-
-//console.table(buildTable(tab01, tab02));
-
 
 // Calcula semelhança entre os tipos de dados e atributos
 function typeSimilarity(t1, t2, s1 = 0, s2 = 0) { // t1, t2: tipo dado 1 e 2, s1, s2: tamanho para char ou varchar.
@@ -203,7 +346,7 @@ function simPercentCalc(attribSim) {
         similarity += (0.04 * (attribSim[i].fk1 === attribSim[i].fk2 ? 1 : 0));
         // restrict
         similarity += (0.02 * (attribSim[i].restrict1 === attribSim[i].restrict2 ? 1 : 0));
-
+        // Formatação da saída para porcentagem
         attribSim[i].simScore = (100 * similarity).toFixed(1) + '%';
         similarity = 0;
     }
@@ -213,7 +356,6 @@ function simPercentCalc(attribSim) {
 
     return attribSim;
 }
-console.table(simPercentCalc(buildTable(tab01, tab02)));
 
 //let result = new Attribute();
 
