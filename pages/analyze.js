@@ -30,6 +30,8 @@ let n1 = []; // Nullable
 let up1 = []; // Updatable
 let fk1 = []; // Chave estrangeira
 let r1 = []; // Restrict
+let pkeys1 = []; // chaves primárias
+let fkeys1 = []; // chaves estrangeiras
 
 // Atributos tabela 02
 let cn2 = []; // nome da coluna
@@ -40,6 +42,8 @@ let n2 = []; // Nullable
 let up2 = []; // Updatable
 let fk2 = []; // Chave estrangeira
 let r2 = []; // Restrict
+let pkeys2 = []; // chaves primárias
+let fkeys2 = []; // chaves estrangeiras
 
 //let cn2 = [];
 //let t2 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'character varying'];
@@ -54,10 +58,34 @@ let r2 = []; // Restrict
     conn_bd2.connect();
     const table01 = 'paciente';
     const table02 = 'paciente';
-
-    // nome das colunas bd1
-    let res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
+    // Busca as colunas que são chaves primárias e secundárias em todas as tabelas do banco e salva para comparação
+    await getKeys(conn_bd1, 'PRIMARY KEY', pkeys1);
+    await getKeys(conn_bd1, 'FOREIGN KEY', fkeys1);
+    await getKeys(conn_bd2, 'PRIMARY KEY', pkeys2);
+    await getKeys(conn_bd2, 'FOREIGN KEY', fkeys2);
+    //console.log(pkeys2);
+    
+    // nome das colunas bd1 e se é chave primária ou estrangeira
+    res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
+    for (let i = 0; i < res.rowCount; i++){
+        cn1.push(res.rows[i].column_name)
+        for (let j = 0; j < pkeys1.length; j++){
+            if (table01 === pkeys1[j].tabela && res.rows[i].column_name === pkeys1[j].coluna){
+                pk1[i] = 'YES'
+                break;
+            } else {
+                pk1[i] = 'NO'
+            }
+        }
+        for (let j = 0; j < fkeys1.length; j++){
+            if (table01 === fkeys1[j].tabela && res.rows[i].column_name === fkeys1[j].coluna){
+                fk1[i] = 'YES'
+                break;
+            } else {
+                fk1[i] = 'NO'
+            }
+        }
+    };
     // tipo de dados bd1
     res = await conn_bd1.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
     for (let i = 0; i < res.rowCount; i++){
@@ -76,9 +104,6 @@ let r2 = []; // Restrict
             s1.push(parseInt(res.rows[i].character_maximum_length));
         }
     };
-    // chave primária bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
     
     // nullable bd1
     res = await conn_bd1.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
@@ -97,7 +122,25 @@ let r2 = []; // Restrict
 
     // nome das colunas bd2
     res = await conn_bd2.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){cn2.push(res.rows[i].column_name)};
+    for (let i = 0; i < res.rowCount; i++){
+        cn2.push(res.rows[i].column_name)
+        for (let j = 0; j < pkeys2.length; j++){
+            if (table02 === pkeys2[j].tabela && res.rows[i].column_name === pkeys2[j].coluna){
+                pk2[i] = 'YES'
+                break;
+            } else {
+                pk2[i] = 'NO'
+            }
+        }
+        for (let j = 0; j < fkeys2.length; j++){
+            if (table02 === fkeys2[j].tabela && res.rows[i].column_name === fkeys2[j].coluna){
+                fk2[i] = 'YES'
+                break;
+            } else {
+                fk2[i] = 'NO'
+            }
+        }
+    };
     // tipo de dados bd1
     res = await conn_bd2.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
     for (let i = 0; i < res.rowCount; i++){
@@ -149,12 +192,12 @@ let r2 = []; // Restrict
     // cria lista de atributos da primeira tabela
     let tab01 = [];
     for (let i = 0; i < cn1.length; i++) {
-        tab01.push(new Attribute(cn1[i], t1[i], s1[i], 'NO', n1[i], up1[i], 'NO', 'YES', 'NO'))
+        tab01.push(new Attribute(cn1[i], t1[i], s1[i], pk1[i], n1[i], up1[i], fk1[i], 'NO', 'NO'))
     }
     // cria lista de atributos da segunda tabela
     let tab02 = [];
     for (let i = 0; i < cn2.length; i++) {
-        tab02.push(new Attribute(cn2[i], t2[i], s2[i], 'NO', n2[i], up2[i], 'NO', 'YES', 'NO'))
+        tab02.push(new Attribute(cn2[i], t2[i], s2[i], pk2[i], n2[i], up2[i], fk2[i], 'YES', 'NO'))
     }
     // Executa as funções e retorna a tabela com o resultado
     console.log(`Banco 1: ${conn_bd1.database}; Tabela 1: ${table01}`);
@@ -213,6 +256,14 @@ class Result {
     }
 }
 
+async function getKeys(conn_bd, tipo, keys){
+    let res = await conn_bd.query(`SELECT t.table_name as tabela, k.column_name as coluna
+                                    FROM information_schema.table_constraints t
+                                    JOIN information_schema.key_column_usage k
+                                    USING(constraint_name,table_schema,table_name)
+                                    WHERE t.constraint_type='${tipo}'`);
+    for (let i = 0; i < res.rowCount; i++){keys.push({'tabela': res.rows[i].tabela, 'coluna': res.rows[i].coluna})};
+}
 
 function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributos
     let attribSim = []; // Lista com os dados a serem analisados
