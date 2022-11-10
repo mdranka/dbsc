@@ -64,121 +64,8 @@ let fkeys2 = []; // chaves estrangeiras
     await getKeys(conn_bd2, 'PRIMARY KEY', pkeys2);
     await getKeys(conn_bd2, 'FOREIGN KEY', fkeys2);
     //console.log(pkeys2);
-    
-    // nome das colunas bd1 e se é chave primária ou estrangeira
-    res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        cn1.push(res.rows[i].column_name)
-        for (let j = 0; j < pkeys1.length; j++){
-            if (table01 === pkeys1[j].tabela && res.rows[i].column_name === pkeys1[j].coluna){
-                pk1[i] = 'YES'
-                break;
-            } else {
-                pk1[i] = 'NO'
-            }
-        }
-        for (let j = 0; j < fkeys1.length; j++){
-            if (table01 === fkeys1[j].tabela && res.rows[i].column_name === fkeys1[j].coluna){
-                fk1[i] = 'YES'
-                break;
-            } else {
-                fk1[i] = 'NO'
-            }
-        }
-    };
-    // tipo de dados bd1
-    res = await conn_bd1.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        if (res.rows[i].data_type === 'character varying') {
-            t1.push('varchar')
-        } else {
-            t1.push(res.rows[i].data_type)
-        }
-    };
-    // tamanho string bd1
-    res = await conn_bd1.query(`SELECT character_maximum_length FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        if (res.rows[i].character_maximum_length === null){
-            s1.push(0);
-        } else {
-            s1.push(parseInt(res.rows[i].character_maximum_length));
-        }
-    };
-    
-    // nullable bd1
-    res = await conn_bd1.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){n1.push(res.rows[i].is_nullable)};
-    // updatable bd1
-    res = await conn_bd1.query(`SELECT is_updatable FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){up1.push(res.rows[i].is_updatable)};
-    
-    // chave estrangeira bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
-    
-    // restrict bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
-
-    // nome das colunas bd2
-    res = await conn_bd2.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        cn2.push(res.rows[i].column_name)
-        for (let j = 0; j < pkeys2.length; j++){
-            if (table02 === pkeys2[j].tabela && res.rows[i].column_name === pkeys2[j].coluna){
-                pk2[i] = 'YES'
-                break;
-            } else {
-                pk2[i] = 'NO'
-            }
-        }
-        for (let j = 0; j < fkeys2.length; j++){
-            if (table02 === fkeys2[j].tabela && res.rows[i].column_name === fkeys2[j].coluna){
-                fk2[i] = 'YES'
-                break;
-            } else {
-                fk2[i] = 'NO'
-            }
-        }
-    };
-    // tipo de dados bd1
-    res = await conn_bd2.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        if (res.rows[i].data_type === 'character varying') {
-            t2.push('varchar')
-        } else {
-            t2.push(res.rows[i].data_type)
-        }
-    };
-    // tamanho string bd1
-    res = await conn_bd2.query(`SELECT character_maximum_length FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){
-        if (res.rows[i].character_maximum_length === null){
-            s2.push(0);
-        } else {
-            s2.push(parseInt(res.rows[i].character_maximum_length));
-        }
-    };
-    // chave primária bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
-
-    // nullable bd1
-    res = await conn_bd2.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){n2.push(res.rows[i].is_nullable)};
-    // updatable bd1
-    res = await conn_bd2.query(`SELECT is_updatable FROM information_schema.columns WHERE table_name = '${table02}' ORDER BY ordinal_position ASC`);
-    for (let i = 0; i < res.rowCount; i++){up2.push(res.rows[i].is_updatable)};
-
-    // chave estrangeira bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
-
-    // restrict bd1
-    //res = await conn_bd1.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table01}' ORDER BY ordinal_position ASC`);
-    //for (let i = 0; i < res.rowCount; i++){cn1.push(res.rows[i].column_name)};
-
-
+    await getData(conn_bd1, table01, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
+    await getData(conn_bd2, table02, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
     
     //console.log(cn1);
     //console.log(cn2);
@@ -186,8 +73,6 @@ let fkeys2 = []; // chaves estrangeiras
     // Encerra conexões com bds
     conn_bd1.end();
     conn_bd2.end();
-    
-    
     
     // cria lista de atributos da primeira tabela
     let tab01 = [];
@@ -263,6 +148,56 @@ async function getKeys(conn_bd, tipo, keys){
                                     USING(constraint_name,table_schema,table_name)
                                     WHERE t.constraint_type='${tipo}'`);
     for (let i = 0; i < res.rowCount; i++){keys.push({'tabela': res.rows[i].tabela, 'coluna': res.rows[i].coluna})};
+}
+
+// função que busca os dados no bd e salva para comparação
+async function getData(conn_bd, table, cn, pkeys, pk, fkeys, fk, t, s, n, up){
+        // nome das colunas e se é chave primária ou estrangeira
+        res = await conn_bd.query(`SELECT column_name FROM information_schema.columns WHERE table_name = '${table}' ORDER BY ordinal_position ASC`);
+        for (let i = 0; i < res.rowCount; i++){
+            cn.push(res.rows[i].column_name)
+            for (let j = 0; j < pkeys.length; j++){
+                if (table === pkeys[j].tabela && res.rows[i].column_name === pkeys[j].coluna){
+                    pk[i] = 'YES'
+                    break;
+                } else {
+                    pk[i] = 'NO'
+                }
+            }
+            for (let j = 0; j < fkeys.length; j++){
+                if (table === fkeys[j].tabela && res.rows[i].column_name === fkeys[j].coluna){
+                    fk[i] = 'YES'
+                    break;
+                } else {
+                    fk[i] = 'NO'
+                }
+            }
+        };
+        // tipo de dados bd1
+        res = await conn_bd.query(`SELECT data_type FROM information_schema.columns WHERE table_name = '${table}' ORDER BY ordinal_position ASC`);
+        for (let i = 0; i < res.rowCount; i++){
+            if (res.rows[i].data_type === 'character varying') {
+                t.push('varchar')
+            } else {
+                t.push(res.rows[i].data_type)
+            }
+        };
+        // tamanho string bd1
+        res = await conn_bd.query(`SELECT character_maximum_length FROM information_schema.columns WHERE table_name = '${table}' ORDER BY ordinal_position ASC`);
+        for (let i = 0; i < res.rowCount; i++){
+            if (res.rows[i].character_maximum_length === null){
+                s.push(0);
+            } else {
+                s.push(parseInt(res.rows[i].character_maximum_length));
+            }
+        };
+        
+        // nullable bd1
+        res = await conn_bd.query(`SELECT is_nullable FROM information_schema.columns WHERE table_name = '${table}' ORDER BY ordinal_position ASC`);
+        for (let i = 0; i < res.rowCount; i++){n.push(res.rows[i].is_nullable)};
+        // updatable bd1
+        res = await conn_bd.query(`SELECT is_updatable FROM information_schema.columns WHERE table_name = '${table}' ORDER BY ordinal_position ASC`);
+        for (let i = 0; i < res.rowCount; i++){up.push(res.rows[i].is_updatable)};
 }
 
 function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributos
