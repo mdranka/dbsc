@@ -52,7 +52,7 @@ let fkeys2 = []; // chaves estrangeiras
 
 
 
-// Lê do banco de dados 
+// Execução da análise, chama as funções construídas
 (async () => {
     conn_bd1.connect();
     conn_bd2.connect();
