@@ -3,6 +3,7 @@ let { Client } = require('pg');
 
 // Conexão com banco de dados
 let conn_bd1, conn_bd2;
+// banco 1. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
 let [u1, h1, d1, pass1, port1] = ['iujokcbp', 'babar.db.elephantsql.com', 'iujokcbp', 'qoeFHJ4TmvXz2gDyN-5cfTSSlOrZG3eI', 5432]
 conn_bd1 = new Client({
     user: u1,
@@ -11,7 +12,7 @@ conn_bd1 = new Client({
     password: pass1,
     port: port1
 });
-// banco 2
+// banco 2. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
 let [u2, h2, d2, pass2, port2] = ['ubnudjnt', 'babar.db.elephantsql.com', 'ubnudjnt', 'zuKRWNLmny2_CKs6BXBH7vy2E5GCC6mI', 5432]
 conn_bd2 = new Client({
     user: u2,
