@@ -97,15 +97,15 @@ let fkeys2 = []; // chaves estrangeiras
 
 class Attribute {
     constructor(_name, _type, _size, _pk, _nullable, _updatable, _fk, _restrict){
-        this.name = _name;
-        this.type = _type;
-        this.size = _size;
-        this.pk = _pk;
-        this.nullable = _nullable;
-        this.updatable = _updatable;
-        this.fk = _fk;
-        this.restrict = _restrict;
-        this.match = false
+        this.name = _name;              // Nome da coluna
+        this.type = _type;              // Tipo de dados
+        this.size = _size;              // Tamanho da String (se for string)
+        this.pk = _pk;                  // É chave primária?
+        this.nullable = _nullable;      // Pode estar vazio?
+        this.updatable = _updatable;    // Pode ser alterado?
+        this.fk = _fk;                  // É chave estrangeira?
+        this.restrict = _restrict;      // Possui restição de preenchimento?
+        this.match = false              // Durante a análise, informa se a coluna já foi associada com uma coluna da outra tabela
     }
     // Funções auxiliares, por enquanto sem uso, talvez sejam removidas.
     getName() {
@@ -339,9 +339,6 @@ function simPercentCalc(attribSim) {
         attribSim[i].simScore = (100 * similarity).toFixed(1) + '%';
         similarity = 0;
     }
-
-
-
 
     return attribSim;
 }
