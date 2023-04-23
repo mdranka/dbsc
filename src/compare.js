@@ -104,8 +104,8 @@ let fkeys2 = []; // chaves estrangeiras
 })(); */
 let analyze = (async(req, res) => {
     // Busca as colunas que são chaves primárias e secundárias em todas as tabelas do banco e salva para comparação
-    await con_bd1.connect();
-    await con_bd2.connect();
+    //await con_bd1.connect();
+    //await con_bd2.connect();
     await getKeys(con_bd1, 'PRIMARY KEY', pkeys1);
     await getKeys(con_bd1, 'FOREIGN KEY', fkeys1);
     await getKeys(con_bd2, 'PRIMARY KEY', pkeys2);
@@ -114,8 +114,8 @@ let analyze = (async(req, res) => {
     await getData(con_bd1, table01, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
     await getData(con_bd2, table02, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
     // Encerra conexões com bds
-    await con_bd1.end();
-    await con_bd2.end();
+    //await con_bd1.end();
+    //await con_bd2.end();
     
     // cria lista de atributos da primeira tabela
     let tab01 = [];
