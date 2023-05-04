@@ -17,14 +17,20 @@ export default function DBForm(props){
                         
                         <label htmlFor="dbpass">Password:</label><br></br>
                         <input className="input-data" type="password" name="dbpass" /><br></br>
+                        
+                        <button type="button" onClick="getTables()">Listar Tabelas</button><br></br>
+                        
+                        <div className="list-table"></div>
 
-                        <label htmlFor="table">Table:</label>
-                        <select className="input-data" name="dbtable">
+                        <label htmlFor="table">Table:</label><br></br>
+                        <input className="input-data" type="text" name="dbtable" /><br></br>
+                        { /*<select className="input-data" name="dbtable">
                             <option value="">Escolha a tabela</option>
                             <option value="consulta">consulta</option>
                             <option value="medico">medico</option>
                             <option value="paciente">paciente</option>
-                        </select>
+                        </select> */}
+
                     </fieldset>
                 </form>
             </div>

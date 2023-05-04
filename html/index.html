@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="./js/front.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <title>SimDBS</title>
+</head>
+
+<body>
+    <script>
+        $(document).ready(function() {
+            const host1 = "tcc-data.postgres.database.azure.com";
+            const dbname1 = "clinica";
+            const dbuser1 = "marcos";
+            const dbpass1 = "JPsiqKsGTcvmW4w";
+            const table1 = "medico"
+            const host2 = "tcc-data.postgres.database.azure.com";
+            const dbname2 = "consultorio";
+            const dbuser2 = "marcos";
+            const dbpass2 = "JPsiqKsGTcvmW4w";
+            const table2 = "medico"
+        
+            $("#autofill").click(function(){
+            $("#host1").val(host1);
+            $("#dbname1").val(dbname1);
+            $("#dbuser1").val(dbuser1);
+            $("#dbpass1").val(dbpass1);
+            $("#host2").val(host2);
+            $("#dbname2").val(dbname2);
+            $("#dbuser2").val(dbuser2);
+            $("#dbpass2").val(dbpass2);
+            $("#table1").val(table1);
+            $("#table2").val(table2);
+            });
+        });
+    </script>
+    <div id="root">
+        
+        <div class="header">
+            <img src="./img/logo.png" />
+            <div>
+                <button id="autofill">BDs de teste</button>
+                <button id="clear" onclick="location.reload(true)">Limpar</button>
+            </div>
+        </div>
+    <div class="line"></div>
+
+    <div class="content">
+        <!-- form 1 -->
+        <div class="insertdb">
+            <div class="db">
+                <form class="form1">
+                    <fieldset>
+                        <h1>Database 1</h1>
+                        <label for="host1">Database host address:</label><br />
+                        <input class="input-data" type="text" id="host1" /><br />
+                        
+                        <label for="dbname1">Database name:</label><br />
+                        <input class="input-data" type="text" id="dbname1" /><br />
+                        
+                        <label for="dbuser1">Username:</label><br />
+                        <input class="input-data" type="text" id="dbuser1" /><br />
+                        
+                        <label for="dbpass1">Password:</label><br />
+                        <input class="input-data" type="password" id="dbpass1" /><br />
+                        
+                        <button class="botao" id="bt1" type="button" onclick="getTables('tab01')">Listar Tabelas</button><br />
+                        
+                        <div id="list-tab01"></div>
+                        
+                        <label for="table1">Table:</label><br />
+                        <input class="input-data" type="text" id="table1" /><br />
+                        
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- form 2 -->
+        <div class="insertdb">
+            <div class="db">
+                <form class="form2">
+                    <fieldset>
+                        <h1>Database 2</h1>
+                        <label for="host2">Database host address:</label><br />
+                        <input class="input-data" type="text" id="host2" /><br />
+                        
+                        <label for="dbname2">Database name:</label><br />
+                        <input class="input-data" type="text" id="dbname2" /><br />
+                        
+                        <label for="dbuser2">Username:</label><br />
+                        <input class="input-data" type="text" id="dbuser2" /><br />
+                        
+                        <label for="dbpass2">Password:</label><br />
+                        <input class="input-data" type="password" id="dbpass2" /><br />
+                        
+                        <button class="botao" id="bt2" type="button" onclick="getTables('tab02')">Listar Tabelas</button><br />
+                        
+                        <div id="list-tab02"></div>
+                        
+                        <label for="table2">Table:</label><br />
+                        <input class="input-data" type="text" id="table2" /><br />
+                        
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        
+        
+    </div><!-- content -->
+    <div class="analyzeBut"><button class="botao" type="button" onclick="analyzeData()"> Analyze </button></div>
+    
+    <div id="result">        
+    </div>
+    
+</div><!-- root -->
+
+</body>
+
+</html>

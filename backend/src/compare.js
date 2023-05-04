@@ -1,61 +1,85 @@
-const {con_bd1, con_bd2} = require('./listTables');
-
+//const {con_bd1, con_bd2, pool1, pool2} = require('./listTables');
 const sim = require('string-similarity');
-//let { Client } = require('pg');
+const { Pool } = require('pg');
+
+//process.on('uncaughtException', function (exception) {
+    // handle or ignore error
+//});
+
+
+let con_bd1, con_bd2;
+function pool1(data){
+    con_bd1 = new Pool ({
+        host: `${data.host1}`, //'db.bvaqcsjdajjffqekutvg.supabase.co',
+        database: `${data.db1}`, //'clinica',
+        user: `${data.user1}`, //'postgres',
+        password: `${data.pass1}`, //'JPsiqKsGTcvmW4w',
+        max: 10,
+        idleTimeoutMillis: 2000,
+        connectionTimeoutMillis: 15000,
+    });
+    con_bd1.connect()
+}
+
+function pool2(data){
+    con_bd2 = new Pool ({
+        host: `${data.host2}`, //'db.bvaqcsjdajjffqekutvg.supabase.co',
+        database: `${data.db2}`, //'consultorio',
+        user: `${data.user2}`, //'postgres',
+        password: `${data.pass2}`, //'JPsiqKsGTcvmW4w',
+        max: 10,
+        idleTimeoutMillis: 2000,
+        connectionTimeoutMillis: 15000,
+    });
+    con_bd2.connect();
+}
+
+
+let getTable1 = (async(req, res) => {
+    pool1(req.body);
+    const { rows } = await con_bd1.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
+        WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+        ORDER BY tablename`);
+    //await con_bd1.end();
+    
+    /*pool1
+    .query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
+            WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+            ORDER BY tablename`)
+    .then((res) => console.log(res.rows))
+    .catch((err) => console.error('Error executing query', err.stack))
+    */
+    return res.status(200).send(rows);
+});
+
+let getTable2 = (async(req, res) => {
+    pool2(req.body);
+
+    //con_bd2.connect();
+    const { rows } = await con_bd2.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
+        WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+        ORDER BY tablename`);
+    //await con_bd2.end();
+    return res.status(200).send(rows);
+});
+    
+
 /*
 // Conexão com banco de dados
-let conn_bd1, conn_bd2;
+
 // banco 1. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
 //let [u1, h1, d1, pass1, port1] = ['iujokcbp', 'babar.db.elephantsql.com', 'iujokcbp', 'qoeFHJ4TmvXz2gDyN-5cfTSSlOrZG3eI', 5432];
 let [u1, h1, d1, pass1, port1] = ['postgres', 'db.bvaqcsjdajjffqekutvg.supabase.co', 'clinica', 'JPsiqKsGTcvmW4w', 5432];
 //let [u1, h1, d1, pass1, port1] = ['marcos', 'tcc-data.postgres.database.azure.com', 'clinica', 'JPsiqKsGTcvmW4w', 5432];
 //let [u1, h1, d1, pass1, port1] = ['hgllojip', 'castor.db.elephantsql.com', 'hgllojip', 'FzaCnomCMDcppxGH6Xl84XmWcG3Gahpk', 5432];
-conn_bd1 = new Client({
-    user: u1,
-    host: h1,
-    database: d1,
-    password: pass1,
-    port: port1
-});
+
 // banco 2. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
 //let [u2, h2, d2, pass2, port2] = ['ubnudjnt', 'babar.db.elephantsql.com', 'ubnudjnt', 'zuKRWNLmny2_CKs6BXBH7vy2E5GCC6mI', 5432];
 let [u2, h2, d2, pass2, port2] = ['postgres', 'db.bvaqcsjdajjffqekutvg.supabase.co', 'consultorio', 'JPsiqKsGTcvmW4w', 5432];
 //let [u2, h2, d2, pass2, port2] = ['marcos', 'tcc-data.postgres.database.azure.com', 'consultorio', 'JPsiqKsGTcvmW4w', 5432];
 //let [u2, h2, d2, pass2, port2] = ['sxpjoesf', 'castor.db.elephantsql.com', 'sxpjoesf', '6xeTVWEk7rmr65ScoKZ-nS2kfZm-xC5U', 5432];
-conn_bd2 = new Client({
-    user: u2,
-    host: h2,
-    database: d2,
-    password: pass2,
-    port: port2
-});*/
-// Nome das tabelas nos bancos 1 e 2
-const table01 = 'medico'; // pode ser testado também com 'paciente' e 'consulta'
-const table02 = 'medico'; // pode ser testado também com 'paciente' e 'consulta'
 
-// Atributos tabela 01
-let cn1 = []; // nome da coluna
-let t1 = []; // tipo de dados
-let s1 = []; // Tamanho da string, caso haja
-let pk1 = []; // chave primária
-let n1 = []; // Nullable
-let up1 = []; // Updatable
-let fk1 = []; // Chave estrangeira
-let r1 = []; // Restrict
-let pkeys1 = []; // chaves primárias
-let fkeys1 = []; // chaves estrangeiras
 
-// Atributos tabela 02
-let cn2 = []; // nome da coluna
-let t2 = []; // tipo de dados
-let s2 = []; // Tamanho da string, caso haja
-let pk2 = []; // chave primária
-let n2 = []; // Nullable
-let up2 = []; // Updatable
-let fk2 = []; // Chave estrangeira
-let r2 = []; // Restrict
-let pkeys2 = []; // chaves primárias
-let fkeys2 = []; // chaves estrangeiras
 
 //let cn2 = [];
 //let t2 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'character varying'];
@@ -103,16 +127,42 @@ let fkeys2 = []; // chaves estrangeiras
 
 })(); */
 let analyze = (async(req, res) => {
+    
+    // Atributos tabela 01
+    let cn1 = []; // nome da coluna
+    let t1 = []; // tipo de dados
+    let s1 = []; // Tamanho da string, caso haja
+    let pk1 = []; // chave primária
+    let n1 = []; // Nullable
+    let up1 = []; // Updatable
+    let fk1 = []; // Chave estrangeira
+    let r1 = []; // Restrict
+    let pkeys1 = []; // chaves primárias
+    let fkeys1 = []; // chaves estrangeiras
+
+    // Atributos tabela 02
+    let cn2 = []; // nome da coluna
+    let t2 = []; // tipo de dados
+    let s2 = []; // Tamanho da string, caso haja
+    let pk2 = []; // chave primária
+    let n2 = []; // Nullable
+    let up2 = []; // Updatable
+    let fk2 = []; // Chave estrangeira
+    let r2 = []; // Restrict
+    let pkeys2 = []; // chaves primárias
+    let fkeys2 = []; // chaves estrangeiras
+
+    pool1(req.body);
+    pool2(req.body);
+    
     // Busca as colunas que são chaves primárias e secundárias em todas as tabelas do banco e salva para comparação
-    //await con_bd1.connect();
-    //await con_bd2.connect();
     await getKeys(con_bd1, 'PRIMARY KEY', pkeys1);
     await getKeys(con_bd1, 'FOREIGN KEY', fkeys1);
     await getKeys(con_bd2, 'PRIMARY KEY', pkeys2);
     await getKeys(con_bd2, 'FOREIGN KEY', fkeys2);
-    //console.log(pkeys2);
-    await getData(con_bd1, table01, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
-    await getData(con_bd2, table02, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
+    console.log(cn1);
+    await getData(con_bd1, req.body.table1, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
+    await getData(con_bd2, req.body.table2, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
     // Encerra conexões com bds
     //await con_bd1.end();
     //await con_bd2.end();
@@ -128,8 +178,10 @@ let analyze = (async(req, res) => {
         tab02.push(new Attribute(cn2[i], t2[i], s2[i], pk2[i], n2[i], up2[i], fk2[i], 'NO', 'NO'))
     }
     // Executa as funções e retorna a tabela com o resultado
-    let result = simPercentCalc(buildTable(tab01, tab02))
-    return res.status(200).json(result);
+    const result = await simPercentCalc(buildTable(tab01, tab02));
+    con_bd1.end();
+    con_bd2.end();
+    return res.status(200).send(result);
 });
 
 
@@ -399,5 +451,7 @@ module.exports = {
     typeSimilarity,
     buildTable,
     Attribute,
-    Result
+    Result,
+    getTable1,
+    getTable2
 }
