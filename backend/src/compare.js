@@ -40,15 +40,7 @@ let getTable1 = (async(req, res) => {
     const { rows } = await con_bd1.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-    //await con_bd1.end();
     
-    /*pool1
-    .query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
-            WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-            ORDER BY tablename`)
-    .then((res) => console.log(res.rows))
-    .catch((err) => console.error('Error executing query', err.stack))
-    */
     return res.status(200).send(rows);
 });
 
@@ -59,7 +51,7 @@ let getTable2 = (async(req, res) => {
     const { rows } = await con_bd2.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-    //await con_bd2.end();
+
     return res.status(200).send(rows);
 });
     
@@ -127,7 +119,7 @@ let [u2, h2, d2, pass2, port2] = ['postgres', 'db.bvaqcsjdajjffqekutvg.supabase.
 
 })(); */
 let analyze = (async(req, res) => {
-    
+
     // Atributos tabela 01
     let cn1 = []; // nome da coluna
     let t1 = []; // tipo de dados
@@ -160,7 +152,7 @@ let analyze = (async(req, res) => {
     await getKeys(con_bd1, 'FOREIGN KEY', fkeys1);
     await getKeys(con_bd2, 'PRIMARY KEY', pkeys2);
     await getKeys(con_bd2, 'FOREIGN KEY', fkeys2);
-    console.log(cn1);
+
     await getData(con_bd1, req.body.table1, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
     await getData(con_bd2, req.body.table2, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
     // Encerra conexões com bds

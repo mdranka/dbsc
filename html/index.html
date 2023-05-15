@@ -8,6 +8,9 @@
         <link rel="stylesheet" href="./css/style.css">
         <script src="./js/front.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
         <title>SimDBS</title>
 </head>
 
@@ -36,22 +39,36 @@
             $("#dbpass2").val(dbpass2);
             $("#table1").val(table1);
             $("#table2").val(table2);
-            });
         });
+    });
     </script>
     <div id="root">
         
         <div class="header">
             <img src="./img/logo.png" />
+            <div class="btn btn-primary tooltip"><ion-icon name="alert-circle-outline"></ion-icon>
+                <div class="bottom">
+                    <h3>Como utilizar</h3>
+                    <p>Preencha os dados de acesso ao banco de dados.
+                       Em seguida, clique em listar tabelas, para ver uma lista de tabelas disponíveis no BD para comparar.
+                       Digite o nome da tabela que deseja utilizar no campo <em>Table</em>.
+                       Após preencher os dados dos dois BDs (incluindo o campo Table), clique em Analyze.
+                       O resultado será mostrado abaixo do botão (pode levar alguns segundos dependendo da conexão com o banco de dados.</p>
+                       <p>Clicando no botão <strong>BDs de teste</strong> ao lado, os dados serão preenchidos com o acesso à um banco de testes.</p>
+                       <p>O botão <strong>Limpar</strong> limpa o formulário e recarrega a página.</p>
+                    <i></i>
+                </div>
+            </div> <!-- Ajuda -->
+            
             <div>
                 <button id="autofill">BDs de teste</button>
                 <button id="clear" onclick="location.reload(true)">Limpar</button>
             </div>
         </div>
-    <div class="line"></div>
-
-    <div class="content">
-        <!-- form 1 -->
+        <div class="line"></div>
+        
+        <div class="content">
+            <!-- form 1 -->
         <div class="insertdb">
             <div class="db">
                 <form class="form1">
