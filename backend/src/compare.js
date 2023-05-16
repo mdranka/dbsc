@@ -2,9 +2,6 @@
 const sim = require('string-similarity');
 const { Pool } = require('pg');
 
-//process.on('uncaughtException', function (exception) {
-    // handle or ignore error
-//});
 
 
 let con_bd1, con_bd2;

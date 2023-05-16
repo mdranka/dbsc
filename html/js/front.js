@@ -71,39 +71,39 @@ const listResult = async(resTable) => {
     `<table class="resTable">`+
     `<thead>`+
     `<tr>`+
-    `<th class="tableHead">Name1</th>`+
-    `<th class="tableHead">Name2</th>`+
+    `<th class="tableHead par">Name1</th>`+
+    `<th class="tableHead par">Name2</th>`+
     `<th class="tableHead">Type1</th>`+
     `<th class="tableHead">Type2</th>`+
-    `<th class="tableHead">Size1</th>`+
-    `<th class="tableHead">Size2</th>`+
+    `<th class="tableHead par">Size1</th>`+
+    `<th class="tableHead par">Size2</th>`+
     `<th class="tableHead">PK1</th>`+
     `<th class="tableHead">PK2</th>`+
-    `<th class="tableHead">Nullable1</th>`+
-    `<th class="tableHead">Nullable2</th>`+
+    `<th class="tableHead par">Nullable1</th>`+
+    `<th class="tableHead par">Nullable2</th>`+
     `<th class="tableHead">Updatable1</th>`+
     `<th class="tableHead">Updatable2</th>`+
-    `<th class="tableHead">FK1</th>`+
-    `<th class="tableHead">FK2</th>`+
+    `<th class="tableHead par">FK1</th>`+
+    `<th class="tableHead par">FK2</th>`+
     `<th class="tableHead">simScore</th>`+
     `</tr>`+
     `</thead>`+
     `<tbody>`;
     for (let i=0; i < result.length; i++){
-        let line =  `<tr><td>${result[i].name1}</td>` +
-                    `<td>${result[i].name2}</td>` +
+        let line =  `<tr><td class="par">${result[i].name1}</td>` +
+                    `<td class="par">${result[i].name2}</td>` +
                     `<td>${result[i].type1}</td>` +
                     `<td>${result[i].type2}</td>` +
-                    `<td>${result[i].size1}</td>` +
-                    `<td>${result[i].size2}</td>` +
+                    `<td class="par">${result[i].size1}</td>` +
+                    `<td class="par">${result[i].size2}</td>` +
                     `<td>${result[i].pk1}</td>` +
                     `<td>${result[i].pk2}</td>` +
-                    `<td>${result[i].nullable1}</td>` +
-                    `<td>${result[i].nullable2}</td>` +
+                    `<td class="par">${result[i].nullable1}</td>` +
+                    `<td class="par">${result[i].nullable2}</td>` +
                     `<td>${result[i].updatable1}</td>` +
                     `<td>${result[i].updatable2}</td>` +
-                    `<td>${result[i].fk1}</td>` +
-                    `<td>${result[i].fk2}</td>` +
+                    `<td class="par">${result[i].fk1}</td>` +
+                    `<td class="par">${result[i].fk2}</td>` +
                     `<td>${result[i].simScore}</td></tr>`;
         finalTable += line;
     }

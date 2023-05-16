@@ -92,10 +92,14 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
   border: 1px solid #000;
 }
 
+.par {
+  background-color: #f3f3f3;
+}
+
 td {
   border: 1px solid #555;
   color: #002753;
-  align-items: center;
+  text-align: center;
 }
 
 .analyzeBut {
