@@ -67,7 +67,7 @@ const analyzeData = async () => {
 
 const listResult = async(resTable) => {
     let result = resTable;
-    let finalTable = `` +
+    let finalTable = `<div id="table">` +
     `<table class="resTable">`+
     `<thead>`+
     `<tr>`+
@@ -90,7 +90,7 @@ const listResult = async(resTable) => {
     `</thead>`+
     `<tbody>`;
     for (let i=0; i < result.length; i++){
-        let line =  `<tr><td class="par">${result[i].name1}</td>` +
+        let line =  `<tr class="t_line"><td class="par">${result[i].name1}</td>` +
                     `<td class="par">${result[i].name2}</td>` +
                     `<td>${result[i].type1}</td>` +
                     `<td>${result[i].type2}</td>` +
@@ -104,10 +104,10 @@ const listResult = async(resTable) => {
                     `<td>${result[i].updatable2}</td>` +
                     `<td class="par">${result[i].fk1}</td>` +
                     `<td class="par">${result[i].fk2}</td>` +
-                    `<td>${result[i].simScore}</td></tr>`;
+                    `<td>${result[i].simScore.toFixed(1)}%</td></tr>`;
         finalTable += line;
     }
-    finalTable += `</tbody></table>`;
+    finalTable += `</tbody></table></div>`;
     document.getElementById(`result`).innerHTML = finalTable;
 }
 

@@ -416,7 +416,7 @@ function simPercentCalc(attribSim) {
         // restrict
         similarity += (0.02 * (attribSim[i].restrict1 === attribSim[i].restrict2 ? 1 : 0));
         // Formatação da saída para porcentagem
-        attribSim[i].simScore = (100 * similarity).toFixed(1) + '%';
+        attribSim[i].simScore = (100 * similarity);
         similarity = 0;
     }
 
