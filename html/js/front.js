@@ -116,6 +116,8 @@ const listResult = async(resTable) => {
     }
     finalTable += `</tbody></table></div>`;
     document.getElementById(`result`).innerHTML = finalTable;
+    document.querySelector('#footer').scrollIntoView();
+    //window.location.href="#footer";
 }
 
 //form1.addEventListener('submit', listTables)

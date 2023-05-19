@@ -7,6 +7,7 @@ font-family: Merriweather, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Robot
   sans-serif;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
+scroll-behavior: smooth;
 }
 
 .root {
@@ -22,6 +23,11 @@ font-family: Merriweather, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Robot
   display: flex;
   align-items: center;
   justify-content: space-around;
+}
+
+#logo{
+  height: 50px;
+  width: auto;
 }
 
 .header.div{
@@ -127,7 +133,7 @@ font-family: Merriweather, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Robot
 }
 
 td {
-  border: 2px solid #666;
+  border: 1px solid #666;
   text-align: center;
   padding: 2px 4px;
 }
@@ -147,6 +153,23 @@ td {
   margin: 5px 0;
 }
 
+
+#footer{
+  font-size: 12pt;
+  color: #222;
+  background-color: #888;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  margin: 0;
+  padding: 15px 0;
+}
+
+#footer > p{
+  margin: 0;
+} 
 
 /* Código para a tooltip */
 .tooltip {

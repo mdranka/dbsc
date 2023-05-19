@@ -24,7 +24,7 @@ function pool2(data){
         database: `${data.db2}`, //'consultorio',
         user: `${data.user2}`, //'postgres',
         password: `${data.pass2}`, //'JPsiqKsGTcvmW4w',
-        max: 10,
+        max: 20,
         idleTimeoutMillis: 2000,
         connectionTimeoutMillis: 15000,
     });
@@ -37,7 +37,7 @@ let getTable1 = (async(req, res) => {
     const { rows } = await con_bd1.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-    
+
     return res.status(200).send(rows);
 });
 
@@ -48,7 +48,7 @@ let getTable2 = (async(req, res) => {
     const { rows } = await con_bd2.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-
+    
     return res.status(200).send(rows);
 });
     
