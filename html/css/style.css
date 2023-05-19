@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Kanit&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 body {
 margin: 0 auto;
 background-color: #ddd;
-font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+font-family: Merriweather, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
 -webkit-font-smoothing: antialiased;
@@ -44,7 +44,8 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
 }
 
 .input-data{
-  font-size: 12pt;
+  font-size: 14pt;
+  font-family: Dosis, sans-serif;
 }
 
 .content {
@@ -69,7 +70,8 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
 }
 
 #list-tab01, #list-tab02{
-  border: 1px solid #009dff;
+  border: 1px solid;
+  border-image: linear-gradient(320deg, #007cff, #33c0f7) 1;
   color: #009dff;
   padding: 5px;
 }
@@ -79,10 +81,11 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 40px;
 }
 
 #table {
-  border: 5px solid;
+  border: 8px solid;
   border-image: linear-gradient(320deg, #007cff, #33c0f7) 1;
 }
 
@@ -91,12 +94,28 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
   max-width: 95vw;
   border: none;
   border-collapse: collapse;
+  font-size: 12.5pt;
+  background-color: #eee;
 }
 
 .tableHead{
   border: 1px solid #000;
   padding: 2px 5px;
+  font-weight: 900;
 }
+
+.red{
+  color: rgb(145, 0, 0)
+}
+
+.orange{
+  color: rgb(235, 94, 0)
+}
+
+.green{
+  color: rgb(0, 104, 0)
+}
+
 
 /*.par {
   background-color: #f3f3f3;
@@ -108,8 +127,7 @@ font-family: Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Ox
 }
 
 td {
-  border: 1px solid #555;
-  color: #002753;
+  border: 2px solid #666;
   text-align: center;
   padding: 2px 4px;
 }
@@ -123,7 +141,7 @@ td {
 .botao{
   font-size: 14pt;
   border-radius: 20px;
-  background-color: #002753;
+  background-image: linear-gradient(320deg, #007cff, #33c0f7);
   padding: 7px;
   color: #FFF;
   margin: 5px 0;

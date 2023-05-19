@@ -90,21 +90,28 @@ const listResult = async(resTable) => {
     `</thead>`+
     `<tbody>`;
     for (let i=0; i < result.length; i++){
-        let line =  `<tr class="t_line"><td class="par">${result[i].name1}</td>` +
-                    `<td class="par">${result[i].name2}</td>` +
-                    `<td>${result[i].type1}</td>` +
-                    `<td>${result[i].type2}</td>` +
-                    `<td class="par">${result[i].size1}</td>` +
-                    `<td class="par">${result[i].size2}</td>` +
-                    `<td>${result[i].pk1}</td>` +
-                    `<td>${result[i].pk2}</td>` +
-                    `<td class="par">${result[i].nullable1}</td>` +
-                    `<td class="par">${result[i].nullable2}</td>` +
-                    `<td>${result[i].updatable1}</td>` +
-                    `<td>${result[i].updatable2}</td>` +
-                    `<td class="par">${result[i].fk1}</td>` +
-                    `<td class="par">${result[i].fk2}</td>` +
-                    `<td>${result[i].simScore.toFixed(1)}%</td></tr>`;
+        let line;
+        if(result[i].simScore <= 30) {
+            line = `<tr class="t_line red"><td class="par">${result[i].name1}</td>`;
+        } else if (result[i].simScore > 30 && result[i].simScore <= 85) {
+            line = `<tr class="t_line orange"><td class="par">${result[i].name1}</td>`;
+        } else if (result[i].simScore > 85) {
+            line = `<tr class="t_line green"><td class="par">${result[i].name1}</td>`;
+        };
+        line += `<td class="par">${result[i].name2}</td>` +
+                `<td>${result[i].type1}</td>` +
+                `<td>${result[i].type2}</td>` +
+                `<td class="par">${result[i].size1}</td>` +
+                `<td class="par">${result[i].size2}</td>` +
+                `<td>${result[i].pk1}</td>` +
+                `<td>${result[i].pk2}</td>` +
+                `<td class="par">${result[i].nullable1}</td>` +
+                `<td class="par">${result[i].nullable2}</td>` +
+                `<td>${result[i].updatable1}</td>` +
+                `<td>${result[i].updatable2}</td>` +
+                `<td class="par">${result[i].fk1}</td>` +
+                `<td class="par">${result[i].fk2}</td>` +
+                `<td>${result[i].simScore.toFixed(1)}%</td></tr>`;
         finalTable += line;
     }
     finalTable += `</tbody></table></div>`;
