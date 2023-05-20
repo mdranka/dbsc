@@ -1,5 +1,4 @@
 const express = require('express');
-//const connection = require('./listTables');
 const compare = require('./compare');
 
 const router = express.Router();

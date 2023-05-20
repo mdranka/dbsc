@@ -52,6 +52,7 @@ scroll-behavior: smooth;
 .input-data{
   font-size: 14pt;
   font-family: Dosis, sans-serif;
+  width: 18vw;
 }
 
 .content {
@@ -133,7 +134,7 @@ scroll-behavior: smooth;
 td {
   border: 1px solid #666;
   text-align: right;
-  padding: 2px 4px;
+  padding: 3px 7px;
 }
 
 .analyzeBut {

@@ -4,9 +4,6 @@ const router = require('./router');
 
 const app = express();
 
-//const connection = require('./dbConnections');
-//app.get('/clinica', connection.getTables)
-
 app.use(express.json());
 app.use(cors());
 app.use(router);

@@ -71,20 +71,20 @@ const listResult = async(resTable) => {
     `<table class="resTable">`+
     `<thead>`+
     `<tr>`+
-    `<th class="tableHead par">Name1</th>`+
-    `<th class="tableHead par">Name2</th>`+
+    `<th class="tableHead">Name1</th>`+
+    `<th class="tableHead">Name2</th>`+
     `<th class="tableHead">Type1</th>`+
     `<th class="tableHead">Type2</th>`+
-    `<th class="tableHead par">Size1</th>`+
-    `<th class="tableHead par">Size2</th>`+
+    `<th class="tableHead">Size1</th>`+
+    `<th class="tableHead">Size2</th>`+
     `<th class="tableHead">PK1</th>`+
     `<th class="tableHead">PK2</th>`+
-    `<th class="tableHead par">Nullable1</th>`+
-    `<th class="tableHead par">Nullable2</th>`+
+    `<th class="tableHead">Nullable1</th>`+
+    `<th class="tableHead">Nullable2</th>`+
     `<th class="tableHead">Updatable1</th>`+
     `<th class="tableHead">Updatable2</th>`+
-    `<th class="tableHead par">FK1</th>`+
-    `<th class="tableHead par">FK2</th>`+
+    `<th class="tableHead">FK1</th>`+
+    `<th class="tableHead">FK2</th>`+
     `<th class="tableHead">simScore</th>`+
     `</tr>`+
     `</thead>`+
@@ -117,7 +117,4 @@ const listResult = async(resTable) => {
     finalTable += `</tbody></table></div>`;
     document.getElementById(`result`).innerHTML = finalTable;
     document.querySelector('#footer').scrollIntoView();
-    //window.location.href="#footer";
 }
-
-//form1.addEventListener('submit', listTables)

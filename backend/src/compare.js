@@ -1,4 +1,3 @@
-//const {con_bd1, con_bd2, pool1, pool2} = require('./listTables');
 const sim = require('string-similarity');
 const { Pool } = require('pg');
 
@@ -53,68 +52,6 @@ let getTable2 = (async(req, res) => {
 });
     
 
-/*
-// Conexão com banco de dados
-
-// banco 1. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
-//let [u1, h1, d1, pass1, port1] = ['iujokcbp', 'babar.db.elephantsql.com', 'iujokcbp', 'qoeFHJ4TmvXz2gDyN-5cfTSSlOrZG3eI', 5432];
-let [u1, h1, d1, pass1, port1] = ['postgres', 'db.bvaqcsjdajjffqekutvg.supabase.co', 'clinica', 'JPsiqKsGTcvmW4w', 5432];
-//let [u1, h1, d1, pass1, port1] = ['marcos', 'tcc-data.postgres.database.azure.com', 'clinica', 'JPsiqKsGTcvmW4w', 5432];
-//let [u1, h1, d1, pass1, port1] = ['hgllojip', 'castor.db.elephantsql.com', 'hgllojip', 'FzaCnomCMDcppxGH6Xl84XmWcG3Gahpk', 5432];
-
-// banco 2. inserir as informações: usuário,   url do banco de dados,     banco,       senha,                             porta.
-//let [u2, h2, d2, pass2, port2] = ['ubnudjnt', 'babar.db.elephantsql.com', 'ubnudjnt', 'zuKRWNLmny2_CKs6BXBH7vy2E5GCC6mI', 5432];
-let [u2, h2, d2, pass2, port2] = ['postgres', 'db.bvaqcsjdajjffqekutvg.supabase.co', 'consultorio', 'JPsiqKsGTcvmW4w', 5432];
-//let [u2, h2, d2, pass2, port2] = ['marcos', 'tcc-data.postgres.database.azure.com', 'consultorio', 'JPsiqKsGTcvmW4w', 5432];
-//let [u2, h2, d2, pass2, port2] = ['sxpjoesf', 'castor.db.elephantsql.com', 'sxpjoesf', '6xeTVWEk7rmr65ScoKZ-nS2kfZm-xC5U', 5432];
-
-
-
-//let cn2 = [];
-//let t2 = ['integer', 'character varying', 'integer', 'integer', 'character varying', 'character varying', 'character', 'date', 'character varying'];
-//let s2 = [0, 45, 0, 0, 60, 35, 8, 0, 15];;
-//console.log(cn2);
-
-
-
-// Execução da análise, chama as funções construídas
-/*
-(async () => {
-    //con_bd1.connect();
-    //con_bd2.connect();
-    
-    // Busca as colunas que são chaves primárias e secundárias em todas as tabelas do banco e salva para comparação
-    await getKeys(con_bd1, 'PRIMARY KEY', pkeys1);
-    await getKeys(con_bd1, 'FOREIGN KEY', fkeys1);
-    await getKeys(con_bd2, 'PRIMARY KEY', pkeys2);
-    await getKeys(con_bd2, 'FOREIGN KEY', fkeys2);
-    //console.log(pkeys2);
-    await getData(con_bd1, table01, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
-    await getData(con_bd2, table02, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
-    
-    //console.log(cn1);
-    //console.log(cn2);
-    
-    // Encerra conexões com bds
-    con_bd1.end();
-    con_bd2.end();
-    
-    // cria lista de atributos da primeira tabela
-    let tab01 = [];
-    for (let i = 0; i < cn1.length; i++) {
-        tab01.push(new Attribute(cn1[i], t1[i], s1[i], pk1[i], n1[i], up1[i], fk1[i], 'NO', 'NO'))
-    }
-    // cria lista de atributos da segunda tabela
-    let tab02 = [];
-    for (let i = 0; i < cn2.length; i++) {
-        tab02.push(new Attribute(cn2[i], t2[i], s2[i], pk2[i], n2[i], up2[i], fk2[i], 'NO', 'NO'))
-    }
-    // Executa as funções e retorna a tabela com o resultado
-    console.log(`Banco 1: ${con_bd1.database}; Tabela 1: ${table01}`);
-    console.log(`Banco 2: ${con_bd2.database}; Tabela 2: ${table02}`);
-    console.table(simPercentCalc(buildTable(tab01, tab02)));
-
-})(); */
 let analyze = (async(req, res) => {
 
     // Atributos tabela 01
@@ -152,9 +89,7 @@ let analyze = (async(req, res) => {
 
     await getData(con_bd1, req.body.table1, cn1, pkeys1, pk1, fkeys1, fk1, t1, s1, n1, up1);
     await getData(con_bd2, req.body.table2, cn2, pkeys2, pk2, fkeys2, fk2, t2, s2, n2, up2);
-    // Encerra conexões com bds
-    //await con_bd1.end();
-    //await con_bd2.end();
+
     
     // cria lista de atributos da primeira tabela
     let tab01 = [];
@@ -186,19 +121,6 @@ class Attribute {
         this.fk = _fk;                  // É chave estrangeira?
         this.restrict = _restrict;      // Possui restição de preenchimento?
         this.match = false              // Durante a análise, informa se a coluna já foi associada com uma coluna da outra tabela
-    }
-    // Funções auxiliares, por enquanto sem uso, talvez sejam removidas.
-    getName() {
-        return this.name;
-    }
-
-    getType() {
-        return [this.type, this.size];
-    }
-
-    getAttrib() {
-        attrib = [this.pk, this.nullable, this.updatable, this.fk, this.restrict];
-        return attrib;
     }
 }
 
@@ -422,15 +344,6 @@ function simPercentCalc(attribSim) {
 
     return attribSim;
 }
-
-//let result = new Attribute();
-
-//console.table(result);
-
-
-
-
-
 
 module.exports = {
     analyze,
