@@ -42,11 +42,11 @@ scroll-behavior: smooth;
 }
   
 .line {
-  background-color: #009dff;
+  background-image: linear-gradient(320deg, #007cff, #33c0f7);
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 3px;
+  height: 5px;
 }
 
 .input-data{
@@ -57,8 +57,7 @@ scroll-behavior: smooth;
 .content {
   width: 100%;
   display: inline-flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .insertdb{
@@ -76,8 +75,7 @@ scroll-behavior: smooth;
 }
 
 #list-tab01, #list-tab02{
-  border: 1px solid;
-  border-image: linear-gradient(320deg, #007cff, #33c0f7) 1;
+  border: 1px solid #fff;
   color: #009dff;
   padding: 5px;
 }
@@ -123,9 +121,9 @@ scroll-behavior: smooth;
 }
 
 
-/*.par {
-  background-color: #f3f3f3;
-}*/
+.par {
+  text-align: left;
+}
 
 
 .t_line:hover{
@@ -134,7 +132,7 @@ scroll-behavior: smooth;
 
 td {
   border: 1px solid #666;
-  text-align: center;
+  text-align: right;
   padding: 2px 4px;
 }
 
