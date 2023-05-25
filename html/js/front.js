@@ -38,6 +38,7 @@ const listTables = async(res, tab) => {
 
 const analyzeData = async () => {
     document.getElementById('result').innerHTML = '';
+    displayLoading();
     let dbdata = {
         "host1": document.getElementById('host1').value,
         "user1": document.getElementById('dbuser1').value,
@@ -62,8 +63,22 @@ const analyzeData = async () => {
         .then(response => response.json())
         .then(response => listResult(response))
         .catch(err => console.error(err));
+    hideLoading();
 }
 
+// Animação de carregamento
+function displayLoading() {
+    document.querySelector("#loading").classList.add("display");
+    // to stop loading after some time
+    setTimeout(() => {
+        document.querySelector("#loading").classList.remove("display");
+    }, 5000);
+}
+
+// hiding loading 
+function hideLoading() {
+    document.querySelector("#loading").classList.remove("display");
+}
 
 const listResult = async(resTable) => {
     let result = resTable;
