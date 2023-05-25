@@ -10,11 +10,11 @@ function pool1(data){
         database: `${data.db1}`, //'clinica',
         user: `${data.user1}`, //'postgres',
         password: `${data.pass1}`, //'JPsiqKsGTcvmW4w',
-        max: 10,
+        max: 20,
         idleTimeoutMillis: 2000,
         connectionTimeoutMillis: 15000,
     });
-    con_bd1.connect()
+    //con_bd1.connect()
 }
 
 function pool2(data){
@@ -27,27 +27,27 @@ function pool2(data){
         idleTimeoutMillis: 2000,
         connectionTimeoutMillis: 15000,
     });
-    con_bd2.connect();
+    //con_bd2.connect();
 }
 
 
 let getTable1 = (async(req, res) => {
     pool1(req.body);
-    const { rows } = await con_bd1.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
+    const client = await con_bd1.connect();
+    const { rows } = await client.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-
+    await client.release();
     return res.status(200).send(rows);
 });
 
 let getTable2 = (async(req, res) => {
     pool2(req.body);
-
-    //con_bd2.connect();
-    const { rows } = await con_bd2.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
+    const client = await con_bd2.connect();
+    const { rows } = await client.query(`SELECT tablename AS tabela FROM pg_catalog.pg_tables
         WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
         ORDER BY tablename`);
-    
+    await client.release();
     return res.status(200).send(rows);
 });
     
