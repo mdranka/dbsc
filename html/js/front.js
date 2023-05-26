@@ -31,9 +31,11 @@ const getTables = async (tab) => {
 const listTables = async(res, tab) => {
     let tables = res;
     document.getElementById(`list-${tab}`).innerHTML = '';
+    let selector = `<select id="${tab}">`;
     for (let i=0; i < tables.length; i++){
-        document.getElementById(`list-${tab}`).innerHTML += `${tables[i].tabela}, `;
+        selector += `<option value="${tables[i].tabela}">${tables[i].tabela}</option>`;
     }
+    document.getElementById(`list-${tab}`).innerHTML += selector + `</select>`
 }
 
 const analyzeData = async () => {
@@ -44,13 +46,13 @@ const analyzeData = async () => {
         "user1": document.getElementById('dbuser1').value,
         "pass1": document.getElementById('dbpass1').value,
         "db1": document.getElementById('dbname1').value,
-        "table1": document.getElementById('table1').value,
+        "table1": document.getElementById('tab01').value,
 
         "host2": document.getElementById('host2').value,
         "user2": document.getElementById('dbuser2').value,
         "pass2": document.getElementById('dbpass2').value,
         "db2": document.getElementById('dbname2').value,
-        "table2": document.getElementById('table2').value
+        "table2": document.getElementById('tab02').value
     };
 
     const options = {
@@ -87,19 +89,19 @@ const listResult = async(resTable) => {
     `<thead>`+
     `<tr>`+
     `<th class="tableHead">Name1</th>`+
-    `<th class="tableHead">Name2</th>`+
+    `<th class="tableHead par">Name2</th>`+
     `<th class="tableHead">Type1</th>`+
-    `<th class="tableHead">Type2</th>`+
+    `<th class="tableHead par">Type2</th>`+
     `<th class="tableHead">Size1</th>`+
-    `<th class="tableHead">Size2</th>`+
+    `<th class="tableHead par">Size2</th>`+
     `<th class="tableHead">PK1</th>`+
-    `<th class="tableHead">PK2</th>`+
+    `<th class="tableHead par">PK2</th>`+
     `<th class="tableHead">Nullable1</th>`+
-    `<th class="tableHead">Nullable2</th>`+
+    `<th class="tableHead par">Nullable2</th>`+
     `<th class="tableHead">Updatable1</th>`+
-    `<th class="tableHead">Updatable2</th>`+
+    `<th class="tableHead par">Updatable2</th>`+
     `<th class="tableHead">FK1</th>`+
-    `<th class="tableHead">FK2</th>`+
+    `<th class="tableHead par">FK2</th>`+
     `<th class="tableHead">simScore</th>`+
     `</tr>`+
     `</thead>`+

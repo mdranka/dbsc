@@ -75,9 +75,10 @@ scroll-behavior: smooth;
   margin: 10px;
 }
 
-#list-tab01, #list-tab02{
+#tab01, #tab02{
   border: 1px solid #fff;
   color: #009dff;
+  font-size: 14pt;
   padding: 5px;
 }
 
@@ -152,13 +153,21 @@ scroll-behavior: smooth;
 
 
 .t_line:hover{
-  background-color: #aaa;
+  background-color: #bbb;
+}
+
+th {
+  text-align: right; 
 }
 
 td {
   border: 1px solid #666;
   text-align: right;
   padding: 3px 7px;
+}
+
+#legenda {
+  border: 2px solid #007cff;
 }
 
 .analyzeBut {
