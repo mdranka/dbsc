@@ -222,7 +222,7 @@ td {
 }
 
 .tooltip .bottom {
-  min-width:200px; 
+  min-width: 350px; 
   top:40px;
   left:50%;
   transform:translate(-50%, 0);
