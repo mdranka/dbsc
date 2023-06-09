@@ -85,9 +85,9 @@ function hideLoading() {
 const listResult = async(resTable) => {
     let result = resTable;
     const label = `<div id="label">`+
-                    `<p class="green">>85%</p>`+
-                    `<p class="orange">>60% e <=85%</p>`+
-                    `<p class="red"><=60%</p>`+
+                    `<p class="green">&gt;85%</p>`+
+                    `<p class="orange">&gt;60% e &le;85%</p>`+
+                    `<p class="red">&le;60%</p>`+
                     `</div>`;
     let finalTable = label +`<div id="table">` +
     `<table class="resTable">`+
