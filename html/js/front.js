@@ -108,9 +108,9 @@ const listResult = async(resTable) => {
     `<tbody>`;
     for (let i=0; i < result.length; i++){
         let line;
-        if(result[i].simScore <= 30) {
+        if(result[i].simScore <= 50) {
             line = `<tr class="t_line red"><td>${result[i].name1}</td>`;
-        } else if (result[i].simScore > 30 && result[i].simScore <= 85) {
+        } else if (result[i].simScore > 50 && result[i].simScore <= 85) {
             line = `<tr class="t_line orange"><td>${result[i].name1}</td>`;
         } else if (result[i].simScore > 85) {
             line = `<tr class="t_line green"><td>${result[i].name1}</td>`;
