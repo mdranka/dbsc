@@ -208,6 +208,7 @@ async function getData(conn_bd, table, cn, pkeys, pk, fkeys, fk, t, s, n, up){
 function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributos
     let attribSim = []; // Lista com os dados a serem analisados
     let bmi; // Índice da string mais similar
+    let simindex; // valor de similaridade
     for (let i = 0; i < tab01.length; i++) {
         let n2 = []; // lista de nomes de atributo da segunda tabela
         for (let j = 0 ; j < tab02.length; j++){
@@ -215,7 +216,8 @@ function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributo
         }
         bm = sim.findBestMatch(tab01[i].name, n2);
         bmi = bm.bestMatchIndex;
-        if (!tab02[bmi].match){ // se não foi listado ainda
+        simindex = sim.compareTwoStrings(tab01[i].name, tab02[bmi].name);
+        if (!tab02[bmi].match && simindex > 0.3){ // se não foi listado ainda
             attribSim.push(new Result(tab01[i].name, tab02[bmi].name, tab01[i].type, tab02[bmi].type, tab01[i].size, tab02[bmi].size,
                 tab01[i].pk, tab02[bmi].pk, tab01[i].nullable, tab02[bmi].nullable,
                 tab01[i].updatable, tab02[bmi].updatable, tab01[i].fk, tab02[bmi].fk,
@@ -232,10 +234,10 @@ function buildTable(tab01, tab02) { // Constrói tabela comparativa dos atributo
     }
     for (let i = 0; i < tab02.length; i++) {
         if (!tab02[i].match) {
-            attribSim.push(new Result('---', tab02[bmi].name, '---', tab02[bmi].type,
-                '---', tab02[bmi].size, '---', tab02[bmi].pk, '---', tab02[bmi].nullable,
-                '---', tab02[bmi].updatable, '---', tab02[bmi].fk,
-                '---', tab02[bmi].restrict));
+            attribSim.push(new Result('---', tab02[i].name, '---', tab02[i].type,
+                '---', tab02[i].size, '---', tab02[i].pk, '---', tab02[i].nullable,
+                '---', tab02[i].updatable, '---', tab02[i].fk,
+                '---', tab02[i].restrict));
                 tab02[i].match = true; // marca como listado
         }
     }

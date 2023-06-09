@@ -115,10 +115,21 @@ scroll-behavior: smooth;
 
 #result {
   padding-top: 15px;
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
   padding-bottom: 40px;
+}
+
+#label {
+  display: flex;
+  width: auto;
+  justify-content: flex-end;
+}
+
+#label > p {
+  font-weight: 900;
+  padding: 0 15px;
 }
 
 #table {

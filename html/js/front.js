@@ -84,7 +84,12 @@ function hideLoading() {
 
 const listResult = async(resTable) => {
     let result = resTable;
-    let finalTable = `<div id="table">` +
+    const label = `<div id="label">`+
+                    `<p class="green">>85%</p>`+
+                    `<p class="orange">>60% e <=85%</p>`+
+                    `<p class="red"><=60%</p>`+
+                    `</div>`;
+    let finalTable = label +`<div id="table">` +
     `<table class="resTable">`+
     `<thead>`+
     `<tr>`+
@@ -108,9 +113,9 @@ const listResult = async(resTable) => {
     `<tbody>`;
     for (let i=0; i < result.length; i++){
         let line;
-        if(result[i].simScore <= 50) {
+        if(result[i].simScore <= 60) {
             line = `<tr class="t_line red"><td>${result[i].name1}</td>`;
-        } else if (result[i].simScore > 50 && result[i].simScore <= 85) {
+        } else if (result[i].simScore > 60 && result[i].simScore <= 85) {
             line = `<tr class="t_line orange"><td>${result[i].name1}</td>`;
         } else if (result[i].simScore > 85) {
             line = `<tr class="t_line green"><td>${result[i].name1}</td>`;
